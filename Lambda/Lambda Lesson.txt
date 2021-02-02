@@ -1,0 +1,328 @@
+
+
+Okay, hello Cloud Gurus
+and welcome to this lecture.
+In this lecture, we're going to be looking at Lambda.
+So this is going to be a theory lecture.
+In the next lecture, we're going to look
+at API Gateway, which is also a theory lecture.
+And then what we're going to go ahead and do
+is we're going to go and create our first serverless website
+which will just show our names.
+So that will be using Lambda and API Gateway.
+We'll then go on to create a far more complicated website.
+This will be a serverless website that uses
+a combination of S3, uses Lambda, it uses API Gateway,
+it uses DynamoDB and it uses the Polly service.
+And that lecture will basically enable you
+to take your notes, any notes that you've taken
+throughout this course;
+you'll be able to put it into this website
+and it will generate those notes into a voice
+using the Polly service.
+And then you'll be able to listen to your notes
+on the go, so you could download them to your phone
+and you could hear your notes read out to you
+as you travel, so it could help you study.
+And then what we're going to do to top it all off,
+is we're going to take those notes
+and we're going to create an Alexa skill
+that will actually go and read your notes out to you.
+So, it is going to be extremely hands-on.
+You're going to learn an awful lot about serverless
+as well as about Lambda, and as well as about API Gateway.
+I would say this though;
+if you are having trouble with Lambda and API Gateway
+in this lecture and the next lecture,
+definitely still watch it,
+but go ahead and build out all these websites,
+get some hands-on experience and then come back
+and watch Lambda and API Gateway again
+and then you'll definitely be able to grasp
+the concepts a lot better.
+So let's go ahead and get started.
+What is Lambda?
+Well, before we get started with what is Lambda,
+think about what is going on right now
+when you're watching this video.
+How do you think this information is being relayed to you?
+Well, first of all, we host almost everything on AWS,
+we do use some GCP services as well.
+But we're mostly on AWS.
+So all of our videos and the video files
+that you're watching right now are stored in S3
+and we actually CloudFront as our CDN provider.
+So, these videos are stored, actually in the US-EAST-1,
+and that's where the most of our S3 buckets are.
+So, these videos are stored inside a data center
+and in your data centers, you have your hardware.
+So you have things like SANs, you have your servers,
+you have your switches, your routers,
+your firewalls, your load balancers,
+et cetera, et cetera.
+And all of those devices are using Assembly code
+or protocols, and I don't know if you've
+ever written anything in Assembly,
+it's pretty much a nightmare.
+So what almost all developers do
+is they learn high level languages.
+These are the languages, such as Go or Node.js
+or Python, et cetera.
+And in order to use these languages,
+we basically have operating systems,
+so we have Windows, we have Linux, we have OSX et cetera.
+And we actually, as you're watching this now,
+you're probably watching this in Chrome, hopefully,
+not in Internet Explorer;
+and that is running inside your operating system.
+And when you go into the AWS console,
+your browser is interacting with the AWS APIs
+and the final layer of extraction is Lambda.
+So whenever you're using our site,
+you're actually making API calls to API Gateway,
+which is triggering a whole bunch of Lambda functions
+in the background.
+So Lambda is almost like the ultimate abstraction layer;
+at least, it's the latest abstraction layer.
+And the cool thing about Lambda
+is that you don't have to worry about data centers,
+you don't have to worry about hardware,
+you don't have to worry about Assembly code or protocols
+or any high level languages.
+You don't have to worry about running the operating systems,
+you don't have to worry about the actual application layout
+or even, to some extent, the API.
+All you have to worry about is your code.
+AWS take care of everything else for you.
+So that's what Lambda is,
+and if that doesn't make a lot of sense, don't worry.
+You're going to get a lot of hands-on experience
+with Lambda and we will, like I said,
+come back and watch this lecture
+and it will hopefully make a lot more sense.
+So what is Lambda?
+Well, basically, it's a compute service
+where you can upload your code and create a Lambda function.
+And AWS Lambda takes care of the provisioning
+and management of the servers that you use to run your code,
+so you don't have to worry about operating systems,
+patching, scaling, et cetera.
+And you can use Lambda in the following ways.
+You can use it as an event-driven compute service
+where AWS Lambda runs your code
+in response to events.
+And these events could be anything;
+it could be changes to our data in S3
+or it could be a change to your data
+in a DynamoDB table, et cetera,
+and these are called triggers.
+And we'll have a look at those
+in a lot more detail as we go on.
+And you can also use it as a compute service
+to run your code in response to HTTP requests
+using Amazon API Gateway or Amazon API calls
+using the AWS SDKs and this is what we do at A Cloud Guru,
+and this is exactly what we're going to be doing
+in later lectures.
+So, we're going to use it as compute service
+that's going to respond to HTTP requests
+using Amazon's API Gateway.
+So, let's have a look at our user.
+We've got our user, let's pretend this is you
+and you want to create a meme.
+And so, what you do, is you store that meme in S3
+and that then triggers a Lambda function.
+And that Lambda function will basically take your picture
+and take the text that you've sent to the service
+and it will put the text over the meme saying "why?",
+and that will then trigger another Lambda function,
+which will then return the information back to you.
+So this is the completed meme.
+So this is a typical meme website,
+and that's sort of a serverless,
+well, not a typical meme website,
+but this would be a serverless meme website.
+So that would be what the architecture looks like
+and perhaps, it then triggers another Lambda function,
+which then takes the meme that's in that S3 bucket
+and it replicates it across to some other S3 bucket
+elsewhere in the world so you've got some redundancy.
+So, Lambda functions can trigger other Lambda functions,
+putting things up inside S3 can trigger a Lambda function,
+et cetera, et cetera, et cetera.
+So that's Lambda at a very high level.
+The other way Lambda works is if you are sitting here
+and you're watching a course
+and you're making HTTP requests,
+that's going and hitting API Gateway.
+API Gateway is then taking that information
+and passing it to Lambda.
+Lambda then responds and processes that information,
+sends it back API Gateway,
+which sends it back to the user.
+So that's the second way in which we use Lambda.
+And you can actually do this in massive parallels.
+So you can have two HTTP requests;
+that will trigger two separate Lambda functions,
+and when I say separate, the actual code is the same,
+but the function is being triggered in parallel.
+So you're going to have one function
+responding to one request,
+and one function responding to another request.
+It's going back through API Gateway
+and it's sending it back to the user.
+So what languages is supported by Lambda?
+Well, we have a whole bunch of high level languages.
+We've got Node.js, we've got Java, we've got Python,
+We've cot C# and we've got Go.
+It is important to remember those
+going into your exams to memorize those
+and I'm sure they will add more and more languages later.
+So how is Lambda priced?
+Well, it's priced on the number of requests
+and the first one million requests are free.
+And yes, you did read that right.
+The first one million requests are free.
+And that's on a per month basis.
+Now, at A Cloud Guru, we actually
+only just started incurring a Lambda bill
+at the beginning of this year.
+We were able to build our entire business
+using AWS Lambda inside Free Tier
+and it was only the beginning of this year
+that we started getting over a million requests per month.
+So that gives you an idea as to
+how cheap Lambda is, and even now,
+I think our bill is well under a dollar.
+That's just Lambda though;
+we do pay for other things,
+so it is very, very cheap.
+It's also priced on the duration,
+and so it's 20 cents per one millions requests after.
+It's also priced on duration.
+It's calculated from the time
+that your code begins executing
+until it returns, or otherwise terminates
+rounded up to the nearest 100 milliseconds.
+And the price depends the amount of memory
+that you allocate to your function
+and we're going to go have a look at that.
+So, why is Lambda cool?
+And forgive the cheesy image,
+that was the best thing I could find that looked cool.
+Well, Lambda's cool because there's no servers.
+You don't have to manage any servers,
+you don't need system administrators,
+you don't network administrators
+or database administrators.
+Your code just executes automatically.
+You don't have to worry about scaling automatically,
+sorry, scaling manually.
+You don't have to worry about order scaling groups.
+It just scales continuously.
+As a solutions architect,
+things that used to keep me up at night
+was whenever we were going to have a massive event
+for one of my customers;
+whether or not the infrastructure would scale
+or whether or not it would fall over.
+Lambda doesn't fall over, it scales automatically;
+unless there is an outage,
+and there has been some Lambda outages.
+It can be frustrating.
+For some reason, the outages always seem
+to occur in the US-EAST-1,
+I have no idea why we actually put all production stuff
+in US-EAST-1, but every time there's a Lambda outage,
+the A Cloud Guru site goes down.
+Fortunately it's not very common,
+probably a once in a year event
+or once every in 18 months.
+And Lambda's super, super cheap.
+Like I said, we were able to build our entire business
+in Free Tier, and even now I think
+our Lambda bill is under a dollar a month.
+So it is extremely cheap
+and that's why Lambda is super cool.
+And one thing to bear in mind
+is that every time you use an Amazon Echo
+when you are talking to Alexa and she responds,
+you are talking to Lambda
+that is basically taking your voice,
+turning it into text, running it through the,
+it's called a natural language understanding,
+and it basically turns your voice into text
+and passes that text back to Lambda
+and Lambda then decides how to respond.
+So, when you are using Alexa,
+you are speaking to Lambda or you are speaking
+to the cloud.
+And we're going to build our own Alexa skill
+in a few lectures coming up.
+So, what are my exam tips for Lambda?
+Well, remember that Lambda scales out, not up automatically.
+So, it will scale out,
+you can have millions of functions running
+in parallel at the same time.
+But if you run out of memory,
+you need to update the amount of memory
+that that Lambda function uses
+and we'll show you how to do that later on.
+Lambda functions are independent,
+so one event equals one function.
+Lambda is serverless.
+Also remember that it's a compute service;
+sometimes that can come up.
+They'll say, which of the following
+is a compute service?
+Well, Lambda is a compute service.
+Know what services are serverless,
+so things like Lambda, things like API Gateway,
+things like S3, things like DynamoDB et cetera.
+Things like RDS are definitely not serverless.
+You can get serverless Aurora
+just to further complicate things,
+but we'll talk about that a little bit later.
+But almost all of RDS
+uses servers, and things like EC2
+obviously are not serverless
+because it is a physical server.
+And then, Lambda functions can trigger
+other Lambda functions
+and one event can equal any number of functions.
+So just put a variable there called X
+if functions trigger other functions.
+So I could have one event
+which triggers a Lambda function,
+which then triggers three other Lambda functions,
+which each in turn then trigger three Lambda functions,
+et cetera.
+So you can fan out Lambda as well.
+Do remember that architectures can get
+extremely complicated and it can be starting
+to get very difficult to debug.
+That's where we use AWS X-Ray to debug
+what it is that's happening.
+So, if you're asked to debug Lambda,
+which service you should use,
+you're going to use AWS X-Ray.
+And then remember that Lambda can do things globally,
+so you can use it back up an S3 bucket
+to other S3 buckets et cetera.
+It's not stuck in one region,
+you can use it all across the AWS ecosystem.
+And then finally, know your Lambda triggers
+and, again, we're going to see this in the console a lot.
+You should remember as many Lambda triggers as you can
+because this can be a very popular exam question.
+Well, that is it for this lecture, guys.
+If it does seem a little bit complicated, don't worry.
+We're going to get our hands dirty.
+I would suggest coming back and watching this,
+as well as the next lecture on API Gateway
+once you've got all your experience,
+and then it'll make a lot more sense.
+If you've got the time,
+please join me in the next lecture
+to cover off API Gateway.
+Thank you.

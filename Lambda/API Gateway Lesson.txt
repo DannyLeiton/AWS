@@ -1,0 +1,401 @@
+Okay, hello Cloud Gurus,
+and welcome to this lecture.
+In this lecture, we're going to look at API Gateway.
+Now, I'm assuming that some people will know what APIs are
+and what API Gateway is, but not everybody does know.
+And in order to pass your exam,
+you do need to have a good understanding
+of this going into it.
+So I thought I'd start with defining what an API is.
+And if you type in what is an API into Google,
+you're going to get a whole bunch
+of very complicated sounding text.
+And it will take you a while to figure out
+what it is or take quite a bit of reading.
+API just stands for application programming interface.
+And rather than throwing sort of heavily
+technical definitions at you,
+I thought we'd start with something a lot more simpler.
+So I want you to imagine a restaurant.
+You've got a couple who have gone out to dinner,
+they've looked at the menu and they know what it is
+they want to order.
+And then you have a kitchen.
+So you have all the chefs in the kitchen in the back end
+and they're ready to basically go ahead
+and make whatever it is the couple want.
+The problem is that the couple doesn't really want
+to go into the kitchen to give the chefs the order
+and the chefs don't really want to come out of the kitchen
+to ask the couples what they want,
+because they're busy preparing food for other people.
+So how do you solve this issue?
+Well, of course, you have our waiter
+and sorry for the cheesy images,
+but it will help you remember it, you know,
+as you go forward in life.
+So here is our waiter.
+And our waiter is essentially an API.
+A waiter basically takes our order
+from the customer, passes it to the kitchen,
+the kitchen then goes ahead and processes this orders.
+They get all the raw ingredients,
+they make the salad, they make, you know,
+I don't know the stew or whatever it is
+the couple have ordered,
+they then give this back to the waiter
+who then brings it out to the customer.
+So whenever you hear of an API or API Gateway,
+I want you to imagine a waiter
+and that will make it a lot easier
+to understand what's going on.
+So let's look at a more technical example.
+Here we are, we have our user
+and our user wants to go on holiday.
+So they go over to a website
+could be skyscanner.com, could be Expedia,
+both of those are customers A Cloud Guru.
+So big shout out to the team at Skyscanner and Expedia.
+And what you do is you go in and you enter all your details.
+You enter in, what airports you're going to travel from,
+what airports you're going to travel to,
+what date, what class of ticket that you want,
+how many tickets that you want, et cetera, et cetera.
+And then what these websites do
+is they go and make a series of API calls.
+It could be to the airlines themselves,
+it could be to hotels,
+could be a combination of both of them,
+could be the car rental companies, etcetera.
+And these, you know, external companies
+will process the information request,
+and then they will send it back to the website.
+The website will then collect all of this,
+and essentially, you know,
+make it look pretty and order it
+in terms of relevance of what the user wants.
+And by the way, this data that's sent back
+from the airlines or from the hotels or whatever
+it is generally in the JSON format.
+We'll have a look at that in a couple of slides.
+And basically, once the Expedia website
+or the Skyscanner website or whatever
+has processed this data,
+it then sends it back to the user
+in nice easy to read HTML back to the users browser.
+The user then we'll go on and make a choice
+as to what they want,
+and hopefully have a really good holiday.
+So that is how APIs work in real life.
+Essentially, you know, you have some websites,
+who basically will go out and make API calls
+to a whole bunch of other different websites,
+get the information back,
+and correlate it and then present it back to the user.
+So you use APIs every single day.
+And you as a user might not know that
+your website that you're using.
+So let's say it is Expedia, or Skyscanner.
+You don't know how many API calls it's making,
+you don't know to which companies
+but it is making those API calls on your behalf.
+So that's all APIs are.
+Hopefully that is easy enough to understand.
+So let's look at the different types of APIs.
+And there are many different types,
+but the two that are most commonly used.
+We have RESTful APIs.
+Now RESTful API stands for representational state transfer.
+And this is used by about 70% of the internet.
+This is a much newer API.
+And it was actually designed to replace another API,
+which we're going to come to in a second.
+But this is pretty much what everyone uses.
+And when you're doing a RESTful API,
+typically it's going to use JSON.
+So we're going to have key value pairs as you can see below.
+We then have SOAP APIs.
+Now SOAP stands for Simple Object Access Protocol.
+The problem was,
+this has been around since like the late 90s.
+The problem is it wasn't actually all that simple.
+So RESTful API is were invented to make it a lot easier
+to us than SOAP and SOAP uses XML so very similar
+to HTML and using an example
+of XML down there at the bottom.
+Now, when we're going through
+and doing the rest of this course,
+we're really going to be focusing mostly on RESTful APIs
+or REST APIs because that is what API Gateway runs on.
+So what is API Gateway?
+Well, Amazon API Gateway is a fully managed service
+that makes it easy for developers to publish,
+maintain, monitor and secure APIs at any scale.
+With a few clicks in the AWS Management Console,
+you can create an API that acts as a front door
+or as your waiter for applications to access data,
+business logic or functionality from your back end services,
+such as applications running on EC2, code running on Lambda,
+or any web application.
+So basically, it allows your users to connect into an API
+or connect into your waiter and you know,
+you can tell your waiter what it is you want
+from this particular AWS account.
+That will then be passed back into, you know,
+any kind of service that is supported by API Gateway.
+So it could be Lambda, it could be EC2.
+It could be other services as well.
+So let's look at this visually.
+We've got our users, they using a any kind of client device
+that makes a request over to our AWS environment
+to API Gateway.
+And then depending on that type of request,
+API Gateway can then forward that request
+to different services such as Lambda,
+or EC2 or DynamoDB, et cetera.
+So what can API Gateway do?
+Well, it exposes HTTPS endpoints to define a RESTful API.
+So what do we mean by that?
+Well, let's quickly just go ahead
+and I've already SSHed into an EC2 Instance,
+I've got running just to make it easy.
+So let's quickly go ahead and have a look at that.
+But first, I'm just going to go over to Google.
+Okay, so I'm in Google, if I quickly just type into Google
+weather API, something like that.
+We'll get an API.
+Here we go open weather map, API.
+And what we're going to do
+is we're going to make a quick API request
+to this API to get the weather in London.
+So if you click on API doc,
+you'll be able to scroll down.
+And you'll see here examples of API calls.
+So API.openweathermap.org,/data/2.5/weather.
+And then you've got this little question mark.
+That little question mark just means you're about
+to pass a variable,
+and the variable is Q, and that equals London.
+So let's go ahead and copy this into our clipboard.
+Now I'm in a little EC2 Instance.
+You don't need to file one up unless you really want to.
+But what I'm going to do is I'm going to type in curl,
+and then I'm going to paste in that address.
+And then what I'm going to do
+is just go ahead and hit Enter.
+And we can see that it has given me back some JSON,
+and it's basically saying invalid API key,
+please see, blah, blah, blah, blah.
+So actually, what I need to do is sign up.
+So I'm just going to quickly sign up and grab an API key.
+So I'm going to clear the screen, get this command back up.
+And I'm just going to add in my API key here.
+Okay, so I've added in my API key,
+you can see it's this other variable called app ID.
+And there's my API key.
+And if I go ahead and hit enter now
+I get a API response.
+And it's basically giving me the coordinates
+in terms of latitude and longitude.
+And it's telling me that the weather is drizzle,
+surprise, surprise, surprise.
+So let's go back to the slide that we were just on.
+So when we say, what can API Gateway do?
+Expose HTTPS endpoints to define a RESTful API.
+Essentially, what API Gateway does
+is it gives us an HTTPS address
+that we can make calls to.
+And then we can configure how the API responds
+to those calls.
+So if we had a, you know, weather service,
+perhaps we have a whole bunch of weather data
+sitting in DynamoDB,
+we can configure API Gateway to go and retrieve
+that information from DynamoDB,
+using the variables in the HTTPS, you know, respond.
+The HTTPS, get requests that we just sent.
+So that is all it is.
+So basically, it allows you to serverlessly,
+I love that word, connect to services
+like Lambda and DynamoDB.
+You don't need to worry about running any EC2 Instances,
+you can just use API Gateway.
+And that will then connect up to Lambda and DynamoDB.
+And you can send each API endpoint to different targets.
+So you could have one endpoint going to Lambda,
+one endpoint going to DynamoDB,
+one endpoint going to EC2, et cetera, et cetera.
+Runs very efficiently with very low costs.
+It scales effortlessly just like Lambda.
+So you don't have to worry about auto scaling groups
+or anything like that.
+You can track and control usage by using an API key.
+As we just saw, I was using an API key.
+So you can actually track and control usage
+on an API key basis.
+And you can actually throttle request to prevent attacks.
+So you can stop people from trying to DDoS your API Gateway,
+you can actually go ahead and throttle API Gateway.
+And you can connect to CloudWatch
+to log all requests for monitoring.
+And you can actually maintain multiple versions of your API.
+So how do you configure API Gateway?
+Well, first of all, you have to define an API.
+And this acts as basically a container.
+You then define resources and nested resources,
+these well are basically URL paths.
+And for each resource,
+you have to select a supported HTTP method
+and these are verbs.
+So this could be get, this could be post,
+this could be delete.
+This could be, you know, other ones.
+So anything that is supported by any HTTP method
+that supported by API Gateway.
+You can also set your security.
+And you can also choose your targets such as EC2, Lambda,
+DynamoDB, etcetera.
+You can also set request and response transformations.
+And you can deploy your API to a stage.
+So you can have prog, you can have tests,
+you can have different stages within your API.
+And it's important to remember that
+it uses API Gateway's own domain by default,
+but you can use your own custom domain.
+So if people were going in and looking at your code,
+they wouldn't even know that
+it was an Amazon Web Service product,
+they could think that it was your own custom domain
+or your own custom API.
+And it now supports AWS Certificate Manager.
+So you get free SSL and TLS certs with API Gateway,
+if you have bought your domain using route 53,
+and you've set that up in certificate manager.
+So what is API caching?
+So API caching in API Gateway allows you
+to cache your endpoints response.
+So let's say you're sending the same request
+or the request is being sent many, many times.
+And it's always the same response.
+With caching, you can reduce the number of calls made
+to your endpoint and also improve the latency
+of requests to your API.
+So when you enable API caching for a stage,
+API Gateway caches a response from your endpoint
+for specified TTL or Time To Live period in seconds.
+So let's take our example at a restaurant
+but instead of it being a fancy restaurant,
+let's imagine it as McDonald's.
+Now, I don't know about you,
+but if you go into McDonald's and you order a cheeseburger
+or you order a Big Mac,
+typically those burgers are already made
+and they are literally behind the person serving you,
+the person just has to turn around, grab the Big Mac
+or the cheeseburger, put it in a bag
+and give it to you and boom, you've got it.
+They don't have to pass the order to the kitchen,
+and the kitchen has to go in and make it.
+And the reason for that
+is because a lot of people order cheeseburgers,
+or Big Macs at McDonald's.
+So effectively, the burgers are cached.
+Now if you go into McDonald's and order a salad,
+or maybe you order of filet fish burger
+or something, something that is not commonly ordered
+at McDonald's, that order is not going to be cached,
+it's going to need the kitchen to go in and make it
+so the waiter will have to actually pass the order
+back to the kitchen,
+wait for the kitchen to build the order,
+and then, you know, pass it over back to the waiter
+and then pass it over to you in your bag.
+So API caching is just simply that it means
+that the most commonly used API calls
+are going to be cashed in API Gateway
+for a specified time to live period or a TTL period.
+So let's go ahead and have a look at this visually.
+So we've got our users,
+they send an API request to API Gateway.
+If it doesn't have that request cached,
+it then sends that request over to the service.
+In this case, it's Lambda.
+Lambda then returns that response.
+Another user extends exactly the same response
+to API Gateway, that response has already been cached,
+and that's been cached for its time to live.
+And it can be returned to the user very, very quickly.
+Doesn't need to go back
+and do the same query again to Lambda.
+So we're almost done.
+There's one more thing I just need to talk about,
+which is CORS or cross-origin resource Sharing.
+Before we do that, let's talk about same-origin policy.
+So in computing, we have same-origin policy
+and it's basically an important concept
+in the web application security model.
+And under the policy a web browser permit scripts
+contained in a first web page
+to access data in a second web page,
+but only if both web pages have the same origin.
+And this is done to prevent things
+like cross-site scripting attacks.
+And it's enforced by web browsers.
+And it's ignored by tools like postman and Curl.
+Now cross-origin resource sharing or CORS
+is one way that the server at the other end,
+so not the client code in the browser,
+but can relax the same origin policy.
+It's a way for API Gateway, to talk to S3, for example.
+So Cross-origin Resource Sharing is a mechanism
+that allows restricted resources,
+this could be fonts on a web page
+to be requested from another domain
+outside of the domain from
+which the first resource was served.
+So this will become important later on.
+And we're going to see some examples of CORS
+in the labs going forward.
+But to just be aware, that CORS is definitely
+a hot exam topic around S3 and API Gateway
+and we're going to cover it off in the lab
+in a lot more detail.
+But essentially what happens is a browser
+makes HTTP options call for URL
+and options is a HTTP method, just like GET, PUT and POST.
+And the server returns a response that says,
+"these other domains are approved to GET this URL."
+And if you ever see the error message,
+"origin policy cannot be read at the remote resources."
+It just simply means that you need to enable CORS
+on an API Gateway.
+And we are going to again see this in the labs coming up.
+So that is it for this lecture, guys.
+Hopefully, it made a lot of sense.
+Hopefully APIs and API Gateways doesn't seem
+scary to you anymore.
+So what are my exam tips?
+Just remember what API Gateway is at a high level.
+It's the waiter who's going to take your order
+to the kitchen and back.
+It's probably one of the easiest ways to remember it.
+And API Gateway does have caching capabilities
+to increase performance.
+API Gateway is low cost and scales automatically.
+So you don't need auto scaling groups
+or anything like that.
+With API Gateway, you can throttle API Gateway
+to prevent attacks, and you can log results of API,
+or you can log with your results to CloudWatch.
+So if you are using JavaScript or Ajax
+that uses multiple domains with API Gateway,
+then you're going to need to ensure
+that you have enabled CORS on API Gateway.
+And CORS is enforced by the client.
+So that is it for this lecture.
+So you now know what Lambda is,
+you now know what API Gateway is.
+We are now ready to go ahead
+and build our first Serverless website.
+So if you've got the time,
+please join me in the next lecture. Thank you.

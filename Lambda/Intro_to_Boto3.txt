@@ -1,0 +1,21 @@
+Crear credenciales llaves para usuario en IAM,
+Crear instancia EC2 y accederla vis ssh con nuevas credenciales. 
+
+chmod go= dlr_EC2_2.pem                       
+ssh -i dlr_EC2_2.pem ec2-user@34.239.105.123
+sudo yum update
+sudo yum install -y python3-pip python3 python3-setuptools_ 
+pip3 install boto3 --user
+python3 --version
+aws configure
+AKIA3SUNJZWHRFNAWFXP
+tqon/K5pXHbz3+KSo0ATCSR29tPYKfORNryxEsjz
+python3
+>>> import boto3
+>>> s3 = boto3.resource('s3')
+>>> for bucket in s3.buckets.all():
+...     print(bucket.name)
+ec2 = boto3.client('ec2')
+response = ec2.run_instances(ImageId='ami-0be2609ba883822ec', InstanceType='t2.micro', KeyName='dlr_EC2_2', MinCount=1, MaxCount=1)
+Crea y pone a correr una buena instancia ec2 en aws.
+
