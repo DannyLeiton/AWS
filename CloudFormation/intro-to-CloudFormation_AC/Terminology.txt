@@ -1,0 +1,43 @@
+Templates Terminology
+
+Stack: A set of related resources as a single unit
+
+Change set: Before updating a stack, you can generate a change set, which allows to see how the changes will impact the already running resources.
+For example, renaming an RDS Instance will Create a new one and Delete the old one. Potentially causing data loss.
+
+SNS Topic: An Amazon SNS topic is a logical access point that acts as a communication channel. A topic lets you group multiple endpoints (such as AWS Lambda, Amazon SQS, HTTP/S, or an email address).
+To broadcast the messages of a message-producer system (for example, an e-commerce website) working with multiple other services that require its messages (for example, checkout and fulfillment systems), you can create a topic for your producer system.
+The first and most common Amazon SNS task is creating a topic.
+
+High Level CloudFormation: Infrastructure as Code a.k.a Orchestrator.
+
+Templates main components:
+    AWSTemplateFormatVersion: "2010-09-09"
+    Description: Text to describe the template
+    Metadata: Objects that provide additional info to the templates
+    Parameters: Pass values into the template at runtime
+    Mappings: Keys and values that operate as a lookUp table
+    Conditions: Set of conditions of where the resources are created
+    Transform: Ways to specify transforms that CF can use to process the template (e.g. including external snippets, or specifying a version of a Serverless application model)
+    Resources: Main section, the only required one. Stack resources and properties
+    Outputs: Return values on th stack
+
+Conditions and Transform not included in course.
+
+Resources:
+    Logical ID: (can be used to reference the resource in other part of the template)
+        Type:
+        Properties:
+            Set of properties...
+
+Resources:
+  MyEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-047a51fa27710816e # Amazon Linux AMI in N.Virginia
+      Tags:
+        - Key: Name
+          Value: DanielExample
+
+
