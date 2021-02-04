@@ -1,0 +1,10 @@
+Name
+CodeCommitChangeNotification
+ARN
+arn:aws:sns:us-east-1:583246145048:CodeCommitChangeNotification
+Type
+Standard
+Display name
+-
+Topic owner
+583246145048
